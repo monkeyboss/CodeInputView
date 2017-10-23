@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CodeInputView-->
+    <declare-styleable name="codeInputView">
+
+        <attr name="code_length" format="integer" />
+        <attr name="child_h_padding" format="dimension" />
+        <attr name="child_v_padding" format="dimension" />
+        <attr name="child_width" format="dimension" />
+        <attr name="child_height" format="dimension" />
+        <attr name="child_background" format="reference" />
+        <attr name="full_background" format="reference" />
+        <attr name="blank_background" format="reference" />
+        <attr name="cursorVisible" format="boolean" />
+        <attr name="textColor" format="reference" />
+        <attr name="inputType">
+            <enum name="number" value="0" />
+            <enum name="text" value="1" />
+            <enum name="password" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>
