@@ -1,11 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp">
 
-    <pub.monkeyboss.codeinputview.CodeInputView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        android:padding="10dp"
+        android:text="样式举例1" />
 
-</RelativeLayout>
+    <pub.monkeyboss.widget.CodeInputView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:child_background="@drawable/selector_bg_edittext_border"
+        app:child_h_padding="10dp"
+        app:child_height="40dp"
+        app:child_width="40dp"
+        app:code_length="4"
+        app:cursorVisible="false"
+        app:inputType="number"
+        app:textColor="@color/color_text_black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="样式举例2" />
+
+    <pub.monkeyboss.widget.CodeInputView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:blank_background="@drawable/bg_edittext_border_nor"
+        app:child_h_padding="10dp"
+        app:child_height="40dp"
+        app:child_width="40dp"
+        app:code_length="5"
+        app:cursorVisible="true"
+        app:full_background="@drawable/bg_edittext_border_pre"
+        app:inputType="number"
+        app:textColor="@color/color_text_black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="样式举例3" />
+
+    <pub.monkeyboss.widget.CodeInputView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:blank_background="@drawable/bg_edittext_line_nor"
+        app:child_h_padding="10dp"
+        app:child_height="40dp"
+        app:child_width="40dp"
+        app:code_length="6"
+        app:cursorVisible="true"
+        app:full_background="@drawable/bg_edittext_line_pre"
+        app:inputType="number"
+        app:textColor="@color/color_text_black" />
+
+</LinearLayout>

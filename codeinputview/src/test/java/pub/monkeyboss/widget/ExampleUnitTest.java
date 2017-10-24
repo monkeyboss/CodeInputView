@@ -1,4 +1,4 @@
-package pub.monkeyboss.codeinputview;
+package pub.monkeyboss.widget;
 
 import org.junit.Test;
 
