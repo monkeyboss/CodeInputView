@@ -1,4 +1,6 @@
 # CodeInputView
+[![](https://jitpack.io/v/monkeyboss/CodeInputView.svg)](https://jitpack.io/#monkeyboss/CodeInputView)
+
 验证码输入控件，可灵活定制各种样式
 
 ![Image of Yaktocat](https://github.com/monkeyboss/CodeInputView/blob/master/gif/1.0.gif)
