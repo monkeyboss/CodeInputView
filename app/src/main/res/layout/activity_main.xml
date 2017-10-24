@@ -13,6 +13,7 @@
         android:text="样式举例1" />
 
     <pub.monkeyboss.widget.CodeInputView
+        android:id="@+id/codeInputView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:child_background="@drawable/selector_bg_edittext_border"
