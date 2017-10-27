@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CodeInputView.iml" filepath="$PROJECT_DIR$/CodeInputView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CodeInputViewDemo.iml" filepath="$PROJECT_DIR$/CodeInputViewDemo.iml" />
+      <module fileurl="file://D:\AndroidStudioProjects\CodeInputView\CodeInputViewDemo.iml" filepath="D:\AndroidStudioProjects\CodeInputView\CodeInputViewDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/codeinputview/codeinputview.iml" filepath="$PROJECT_DIR$/codeinputview/codeinputview.iml" />
       <module fileurl="file://$PROJECT_DIR$/codeinputview/codeinputview.iml" filepath="$PROJECT_DIR$/codeinputview/codeinputview.iml" />
     </modules>
   </component>

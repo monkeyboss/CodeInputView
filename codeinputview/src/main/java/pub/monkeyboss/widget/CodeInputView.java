@@ -183,8 +183,9 @@ public class CodeInputView extends ViewGroup {
     }
 
     private void input(String s) {
-        if (s != null)
+        if (s != null) {
             buffer.append(s);
+        }
         if (buffer.length() < length) {
             EditText editText = (EditText) getChildAt(buffer.length());
             editText.requestFocus();
@@ -222,9 +223,11 @@ public class CodeInputView extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (buffer.length() != length)
+        if (buffer.length() != length) {
             input(null);
-        else delete();
+        } else {
+            delete();
+        }
         return true;
     }
 
@@ -259,21 +262,36 @@ public class CodeInputView extends ViewGroup {
             child.setVisibility(View.VISIBLE);
             int cWidth = child.getMeasuredWidth();
             int cHeight = child.getMeasuredHeight();
-            int cl = (i) * (cWidth + childHPadding);
+            int cl = (i) * (cWidth + childHPadding) + childHPadding;
             int cr = cl + cWidth;
             int ct = childVPadding;
             int cb = ct + cHeight;
             child.layout(cl, ct, cr, cb);
         }
-
-
     }
 
     public interface OnInputListener {
+        /**
+         * 输入回调
+         *
+         * @param position
+         * @param c
+         * @param content
+         */
         void onInput(int position, char c, String content);
 
+        /**
+         * 删除回调
+         *
+         * @param content
+         */
         void onDelete(String content);
 
+        /**
+         * 输入完成回调
+         *
+         * @param content
+         */
         void onComplete(String content);
 
     }
