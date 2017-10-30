@@ -228,7 +228,7 @@ public class CodeInputView extends ViewGroup {
         } else {
             delete();
         }
-        return true;
+        return false;
     }
 
     @Override
