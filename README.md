@@ -23,7 +23,7 @@ allprojects {
 >Step 2. Add the dependency
 ```
 dependencies {
-    compile 'com.github.monkeyboss:CodeInputView:1.0'
+    compile 'com.github.monkeyboss:CodeInputView:1.0.1'
 }
 ```
 If you are building with Maven:
@@ -41,7 +41,7 @@ If you are building with Maven:
 <dependency>
     <groupId>com.github.monkeyboss</groupId>
     <artifactId>CodeInputView</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 Use CodeInputView in your layout xml:
