@@ -50,19 +50,21 @@ Use CodeInputView in your layout xml:
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 ```
-# CodeInputView支持的属性
- * name="code_length" format="integer"                  验证码长度
- * name="child_h_padding" format="dimension"            验证码输入框横向padding
- * name="child_v_padding" format="dimension"            验证码输入框垂直方向padding
- * name="child_width" format="dimension"                验证码输入框宽度
- * name="child_height" format="dimension"               验证码输入框高度
- * name="padding" format="dimension"                    验证码输入框padding
- * name="child_background" format="reference"           验证码输入框背景，注：支持设置selector background，实现输入框在获得焦点和失去焦点状态下的background。child_background、full_background、blank_background同时存在时，仅child_background有效
- * name="full_background" format="reference"            验证码输入框有内容时的背景
- * name="blank_background" format="reference"           验证码输入框没有内容时的背景
- * name="cursorVisible" format="boolean"                验证码输入框光标是否可见
- * name="textColor" format="reference"                  验证码输入框文字颜色
- * name="inputType" format="enum"                       验证码类型，支持number、password、text三种
+# Supported attributes
+```
+ name="code_length" format="integer"                  验证码长度
+ name="child_h_padding" format="dimension"            验证码输入框横向padding
+ name="child_v_padding" format="dimension"            验证码输入框垂直方向padding
+ name="child_width" format="dimension"                验证码输入框宽度
+ name="child_height" format="dimension"               验证码输入框高度
+ name="padding" format="dimension"                    验证码输入框padding
+ name="child_background" format="reference"           验证码输入框背景，注：支持设置selector background，实现输入框在获得焦点和失去焦点状态下的background。child_background、full_background、blank_background同时存在时，仅child_background有效
+ name="full_background" format="reference"            验证码输入框有内容时的背景
+ name="blank_background" format="reference"           验证码输入框没有内容时的背景
+ name="cursorVisible" format="boolean"                验证码输入框光标是否可见
+ name="textColor" format="reference"                  验证码输入框文字颜色
+ name="inputType" format="enum"                       验证码类型，支持number、password、text三种
+ ```
  
  # Set input listener
  ```
