@@ -23,7 +23,7 @@ allprojects {
 >Step 2. Add the dependency
 ```
 dependencies {
-    compile 'com.github.monkeyboss:CodeInputView:1.0.1'
+    compile 'com.github.monkeyboss:CodeInputView:1.0.2'
 }
 ```
 If you are building with Maven:
@@ -41,7 +41,7 @@ If you are building with Maven:
 <dependency>
     <groupId>com.github.monkeyboss</groupId>
     <artifactId>CodeInputView</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 Use CodeInputView in your layout xml:
@@ -51,18 +51,18 @@ Use CodeInputView in your layout xml:
         android:layout_height="wrap_content" />
 ```
 # CodeInputView支持的属性
- * name="code_length" format="integer"         验证码长度
- * name="child_h_padding" format="dimension"         验证码输入框横向padding
- * name="child_v_padding" format="dimension"         验证码输入框垂直方向padding
- * name="child_width" format="dimension"         验证码输入框宽度
- * name="child_height" format="dimension"         验证码输入框高度
- * name="padding" format="dimension"         验证码输入框padding
- * name="child_background" format="reference"         验证码输入框背景，注：支持设置selector background，实现输入框在获得焦点和失去焦点状态下的background。child_background、full_background、blank_background同时存在时，仅child_background有效
- * name="full_background" format="reference"         验证码输入框有内容时的背景
- * name="blank_background" format="reference"         验证码输入框没有内容时的背景
- * name="cursorVisible" format="boolean"         验证码输入框光标是否可见
- * name="textColor" format="reference"         验证码输入框文字颜色
- * name="inputType" format="enum"         验证码类型，支持number、password、text三种
+ * name="code_length" format="integer"                  验证码长度
+ * name="child_h_padding" format="dimension"            验证码输入框横向padding
+ * name="child_v_padding" format="dimension"            验证码输入框垂直方向padding
+ * name="child_width" format="dimension"                验证码输入框宽度
+ * name="child_height" format="dimension"               验证码输入框高度
+ * name="padding" format="dimension"                    验证码输入框padding
+ * name="child_background" format="reference"           验证码输入框背景，注：支持设置selector background，实现输入框在获得焦点和失去焦点状态下的background。child_background、full_background、blank_background同时存在时，仅child_background有效
+ * name="full_background" format="reference"            验证码输入框有内容时的背景
+ * name="blank_background" format="reference"           验证码输入框没有内容时的背景
+ * name="cursorVisible" format="boolean"                验证码输入框光标是否可见
+ * name="textColor" format="reference"                  验证码输入框文字颜色
+ * name="inputType" format="enum"                       验证码类型，支持number、password、text三种
  
  # Set input listener
  ```
@@ -84,3 +84,11 @@ codeInputView.setOnInputListener(new CodeInputView.OnInputListener() {
     }
 });
  ```
+# Set input listener
+```
+codeInputView.clear()                       //清空输入
+codeInputView.setTransformationMethod()     //设置TransformationMethod
+codeInputView.showKeyBoard()                //弹出键盘
+codeInputView.hideKeyBoard()                //收起键盘
+codeInputView.getInput()                    //获取输入内容
+```
