@@ -84,7 +84,7 @@ codeInputView.setOnInputListener(new CodeInputView.OnInputListener() {
     }
 });
  ```
-# Set input listener
+# public method
 ```
 codeInputView.clear()                       //清空输入
 codeInputView.setTransformationMethod()     //设置TransformationMethod
