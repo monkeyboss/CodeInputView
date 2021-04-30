@@ -32,6 +32,7 @@
         android:text="样式举例2" />
 
     <pub.monkeyboss.widget.CodeInputView
+        android:id="@+id/codeInputView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:blank_background="@drawable/bg_edittext_border_nor"
@@ -51,6 +52,7 @@
         android:text="样式举例3" />
 
     <pub.monkeyboss.widget.CodeInputView
+        android:id="@+id/codeInputView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:blank_background="@drawable/bg_edittext_line_nor"
@@ -62,5 +64,11 @@
         app:full_background="@drawable/bg_edittext_line_pre"
         app:inputType="number"
         app:textColor="@color/color_text_black" />
+
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear input"/>
 
 </LinearLayout>

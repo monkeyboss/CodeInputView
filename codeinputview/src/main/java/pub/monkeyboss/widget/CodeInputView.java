@@ -8,12 +8,14 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -44,20 +46,22 @@ public class CodeInputView extends ViewGroup {
     private final static int TYPE_TEXT = 1;
     private final static int TYPE_PASSWORD = 2;
 
-    private int length;
-    private int childWidth = 120;
-    private int childHeight = 120;
-    private int childHPadding = 14;
-    private int childVPadding = 14;
-    private int inputType = TYPE_NUMBER;
-    private int childBackground;
-    private int fullBackground;
-    private int blankBackground;
-    private boolean cursorVisible;
-    private int textColor = Color.parseColor("#333333");
-    private OnInputListener onInputListener;
+    private TransformationMethod mTransformationMethod;
 
-    private StringBuffer buffer = new StringBuffer();
+    private int mLength;
+    private int mChildWidth = 120;
+    private int mChildHeight = 120;
+    private int mChildHPadding = 14;
+    private int mChildVPadding = 14;
+    private int mInputType = TYPE_NUMBER;
+    private int mChildBackground;
+    private int mFullBackground;
+    private int mBlankBackground;
+    private boolean mCursorVisible;
+    private int mTextColor = Color.parseColor("#333333");
+    private OnInputListener mOnInputListener;
+
+    private StringBuffer mBuffer = new StringBuffer();
 
     public CodeInputView(Context context) {
         this(context, null);
@@ -74,17 +78,17 @@ public class CodeInputView extends ViewGroup {
 
     private void init(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.codeInputView);
-        length = typedArray.getInt(R.styleable.codeInputView_code_length, 4);
-        childHPadding = (int) typedArray.getDimension(R.styleable.codeInputView_child_h_padding, 0);
-        childVPadding = (int) typedArray.getDimension(R.styleable.codeInputView_child_v_padding, 0);
-        childBackground = typedArray.getResourceId(R.styleable.codeInputView_child_background, 0);
-        fullBackground = typedArray.getResourceId(R.styleable.codeInputView_full_background, 0);
-        blankBackground = typedArray.getResourceId(R.styleable.codeInputView_blank_background, 0);
-        cursorVisible = typedArray.getBoolean(R.styleable.codeInputView_cursorVisible, true);
-        textColor = typedArray.getColor(R.styleable.codeInputView_textColor, textColor);
-        inputType = typedArray.getInt(R.styleable.codeInputView_inputType, TYPE_NUMBER);
-        childWidth = (int) typedArray.getDimension(R.styleable.codeInputView_child_width, childWidth);
-        childHeight = (int) typedArray.getDimension(R.styleable.codeInputView_child_height, childHeight);
+        mLength = typedArray.getInt(R.styleable.codeInputView_code_length, 4);
+        mChildHPadding = (int) typedArray.getDimension(R.styleable.codeInputView_child_h_padding, 0);
+        mChildVPadding = (int) typedArray.getDimension(R.styleable.codeInputView_child_v_padding, 0);
+        mChildBackground = typedArray.getResourceId(R.styleable.codeInputView_child_background, 0);
+        mFullBackground = typedArray.getResourceId(R.styleable.codeInputView_full_background, 0);
+        mBlankBackground = typedArray.getResourceId(R.styleable.codeInputView_blank_background, 0);
+        mCursorVisible = typedArray.getBoolean(R.styleable.codeInputView_cursorVisible, true);
+        mTextColor = typedArray.getColor(R.styleable.codeInputView_textColor, mTextColor);
+        mInputType = typedArray.getInt(R.styleable.codeInputView_inputType, TYPE_NUMBER);
+        mChildWidth = (int) typedArray.getDimension(R.styleable.codeInputView_child_width, mChildWidth);
+        mChildHeight = (int) typedArray.getDimension(R.styleable.codeInputView_child_height, mChildHeight);
         typedArray.recycle();
         initViews();
     }
@@ -101,12 +105,12 @@ public class CodeInputView extends ViewGroup {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 1 && buffer.length() < length) {
-                    input(s.toString());
+                if (s.length() == 1 && mBuffer.length() < mLength) {
+                    inputAndMoveToNext(s.toString());
                     setChildBg();
                     check(true);
                 } else if (s.length() == 0) {
-                    input(null);
+                    inputAndMoveToNext(null);
                     setChildBg();
                     check(false);
                 }
@@ -117,7 +121,7 @@ public class CodeInputView extends ViewGroup {
             @Override
             public synchronized boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_DEL && event.getAction() == KeyEvent.ACTION_UP) {
-                    if (buffer.length() > 0) {
+                    if (mBuffer.length() > 0) {
                         delete();
                     }
                 }
@@ -125,29 +129,30 @@ public class CodeInputView extends ViewGroup {
             }
         };
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < mLength; i++) {
             EditText editText = new EditText(getContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(childWidth, childHeight);
-            layoutParams.bottomMargin = childVPadding;
-            layoutParams.topMargin = childVPadding;
-            layoutParams.leftMargin = childHPadding;
-            layoutParams.rightMargin = childHPadding;
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(mChildWidth, mChildHeight);
+            layoutParams.bottomMargin = mChildVPadding;
+            layoutParams.topMargin = mChildVPadding;
+            layoutParams.leftMargin = mChildHPadding;
+            layoutParams.rightMargin = mChildHPadding;
             layoutParams.gravity = Gravity.CENTER;
 
 
             editText.setOnKeyListener(onKeyListener);
-            editText.setBackgroundResource(childBackground > 0 ? childBackground : blankBackground);
-            editText.setTextColor(textColor);
+            editText.setBackgroundResource(mChildBackground > 0 ? mChildBackground : mBlankBackground);
+            editText.setTextColor(mTextColor);
             editText.setLayoutParams(layoutParams);
             editText.setGravity(Gravity.CENTER);
+            editText.setPadding(0, 0, 0, 0);
             editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
 
-            switch (inputType) {
+            switch (mInputType) {
                 case TYPE_NUMBER:
                     editText.setInputType(InputType.TYPE_CLASS_NUMBER);
                     break;
                 case TYPE_PASSWORD:
-                    editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    editText.setTransformationMethod(mTransformationMethod != null ? mTransformationMethod : PasswordTransformationMethod.getInstance());
                     break;
                 case TYPE_TEXT:
                     editText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -157,7 +162,7 @@ public class CodeInputView extends ViewGroup {
             }
             editText.setId(i);
             editText.setEms(1);
-            editText.setCursorVisible(cursorVisible);
+            editText.setCursorVisible(mCursorVisible);
             editText.addTextChangedListener(textWatcher);
             addView(editText, i);
         }
@@ -165,52 +170,64 @@ public class CodeInputView extends ViewGroup {
 
     private void check(boolean isInput) {
         if (isInput) {
-            if (buffer.length() > 0) {
-                if (this.onInputListener != null) {
-                    this.onInputListener.onInput(buffer.length(), buffer.charAt(buffer.length() - 1), buffer.toString());
+            if (mBuffer.length() > 0) {
+                if (this.mOnInputListener != null) {
+                    this.mOnInputListener.onInput(mBuffer.length(), mBuffer.charAt(mBuffer.length() - 1), mBuffer.toString());
                 }
             }
         } else {
-            if (this.onInputListener != null) {
-                this.onInputListener.onDelete(buffer.toString());
+            if (this.mOnInputListener != null) {
+                this.mOnInputListener.onDelete(mBuffer.toString());
             }
         }
-        if (buffer.length() == length) {
-            if (this.onInputListener != null) {
-                this.onInputListener.onComplete(buffer.toString());
+        if (mBuffer.length() == mLength) {
+            if (this.mOnInputListener != null) {
+                this.mOnInputListener.onComplete(mBuffer.toString());
             }
         }
     }
 
-    private void input(String s) {
+    private void inputAndMoveToNext(String s) {
         if (s != null) {
-            buffer.append(s);
+            mBuffer.append(s);
         }
-        if (buffer.length() < length) {
-            EditText editText = (EditText) getChildAt(buffer.length());
+        if (mBuffer.length() < mLength) {
+            EditText editText = (EditText) getChildAt(mBuffer.length());
             editText.requestFocus();
         }
     }
 
     private void delete() {
-        buffer.deleteCharAt(buffer.length() - 1);
-        EditText child = (EditText) getChildAt(buffer.length());
+        mBuffer.deleteCharAt(mBuffer.length() - 1);
+        EditText child = (EditText) getChildAt(mBuffer.length());
         child.setText(null);
+    }
+
+    /**
+     * 获取当前焦点edittext
+     *
+     * @return
+     */
+    private EditText getCurrent() {
+        if (mBuffer.length() < mLength) {
+            return (EditText) getChildAt(mBuffer.length());
+        }
+        return (EditText) getChildAt(mLength);
     }
 
     /**
      * 设置子edittext的background
      */
     private void setChildBg() {
-        if (childBackground == 0) {
+        if (mChildBackground == 0) {
             int count = getChildCount();
             EditText child;
             for (int i = 0; i < count; i++) {
                 child = (EditText) getChildAt(i);
                 if (child.getText().length() > 0) {
-                    child.setBackgroundResource(fullBackground);
+                    child.setBackgroundResource(mFullBackground);
                 } else {
-                    child.setBackgroundResource(blankBackground);
+                    child.setBackgroundResource(mBlankBackground);
                 }
             }
         }
@@ -223,12 +240,86 @@ public class CodeInputView extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (buffer.length() != length) {
-            input(null);
-        } else {
-            delete();
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            if (mBuffer.length() != mLength) {
+                inputAndMoveToNext(null);
+            } else {
+                delete();
+            }
+            showKeyBoard(getCurrent());
+            return true;
         }
         return false;
+    }
+
+    public void setTransformationMethod(TransformationMethod transformationMethod) {
+        mTransformationMethod = transformationMethod;
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            if (child instanceof EditText) {
+                EditText editText = (EditText) child;
+                editText.setTransformationMethod(mTransformationMethod);
+            }
+        }
+    }
+
+    /**
+     * 清空输入
+     */
+    public void clear() {
+        int childCount = getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = getChildAt(i);
+            if (child instanceof EditText) {
+                EditText editText = (EditText) child;
+                editText.setText(null);
+            }
+        }
+        ((EditText)getChildAt(0)).requestFocus();
+    }
+
+    /**
+     * 显示软键盘
+     *
+     * @param view
+     */
+    private void showKeyBoard(View view) {
+        if (view != null) {
+            InputMethodManager inputMethodManager = getInputMethodManager();
+            if (inputMethodManager != null) {
+                view.requestFocus();
+                inputMethodManager.showSoftInput(view, 0);
+            }
+        }
+    }
+
+    public void showKeyBoard() {
+        showKeyBoard(getCurrent());
+    }
+
+    /**
+     * 隐藏软键盘
+     *
+     * @param view
+     */
+    private void hideKeyBoard(View view) {
+        InputMethodManager inputMethodManager = getInputMethodManager();
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void hideKeyBoard() {
+        hideKeyBoard(getCurrent());
+    }
+
+    public String getInput() {
+        return mBuffer.toString();
+    }
+
+    private InputMethodManager getInputMethodManager() {
+        return (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -244,8 +335,8 @@ public class CodeInputView extends ViewGroup {
             View child = getChildAt(0);
             int cHeight = child.getMeasuredHeight();
             int cWidth = child.getMeasuredWidth();
-            int maxH = cHeight + 2 * childVPadding;
-            int maxW = (cWidth + childHPadding) * length + childHPadding;
+            int maxH = cHeight + 2 * mChildVPadding;
+            int maxW = cWidth * mLength + mChildHPadding * (mLength - 1);
             setMeasuredDimension(resolveSize(maxW, widthMeasureSpec),
                     resolveSize(maxH, heightMeasureSpec));
         }
@@ -262,9 +353,9 @@ public class CodeInputView extends ViewGroup {
             child.setVisibility(View.VISIBLE);
             int cWidth = child.getMeasuredWidth();
             int cHeight = child.getMeasuredHeight();
-            int cl = (i) * (cWidth + childHPadding) + childHPadding;
+            int cl = (i) * (cWidth + mChildHPadding);
             int cr = cl + cWidth;
-            int ct = childVPadding;
+            int ct = mChildVPadding;
             int cb = ct + cHeight;
             child.layout(cl, ct, cr, cb);
         }
@@ -296,7 +387,7 @@ public class CodeInputView extends ViewGroup {
 
     }
 
-    public void setOnInputListener(OnInputListener onInputListener) {
-        this.onInputListener = onInputListener;
+    public void setOnInputListener(OnInputListener mOnInputListener) {
+        this.mOnInputListener = mOnInputListener;
     }
 }
